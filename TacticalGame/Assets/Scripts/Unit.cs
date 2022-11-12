@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Unit : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class Unit : MonoBehaviour
     private float moveSpeed = 4f;
     private float rotateSpeed = 10f;
     [SerializeField]private Animator unitAniamtor;
+    private void Awake(){
+        targetPosition = transform.position;
+    }
     private void Update(){
         
         
@@ -25,11 +29,9 @@ public class Unit : MonoBehaviour
              transform.position += moveDirection * Time.deltaTime * moveSpeed;
         }
 
-        if(Input.GetKeyDown(KeyCode.Mouse0)){
-            Move(MouseWorld.GetPosition());
-        }
+       
     }
-    private void Move(Vector3 targetPosition){
+    public void Move(Vector3 targetPosition){
         this.targetPosition = targetPosition;
     }
 }
