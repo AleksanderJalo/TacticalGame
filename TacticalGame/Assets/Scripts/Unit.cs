@@ -6,16 +6,27 @@ public class Unit : MonoBehaviour
 {
     private float stoppingDistance = 0.01f;
     private Vector3 targetPosition;
+    private float moveSpeed = 4f;
+    private float rotateSpeed = 10f;
+    [SerializeField]private Animator unitAniamtor;
     private void Update(){
-        Vector3 moveDirection = (targetPosition - transform.position).normalized;
-        float moveSpeed = 4f;
-        transform.position += moveDirection * Time.deltaTime * moveSpeed;
+        
+        
+       
         if(Vector3.Distance(transform.position, targetPosition) < stoppingDistance ){
             transform.position = targetPosition;
+            unitAniamtor.SetBool("isWalking", false);
         }
 
-        if(Input.GetKeyDown(KeyCode.T)){
-            Move(new Vector3(4,0,4));
+        if(transform.position != targetPosition){
+            unitAniamtor.SetBool("isWalking", true);
+            Vector3 moveDirection = (targetPosition - transform.position).normalized;
+            transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
+             transform.position += moveDirection * Time.deltaTime * moveSpeed;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Mouse0)){
+            Move(MouseWorld.GetPosition());
         }
     }
     private void Move(Vector3 targetPosition){
