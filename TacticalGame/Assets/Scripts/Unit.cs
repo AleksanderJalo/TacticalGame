@@ -5,6 +5,7 @@ using System;
 
 public class Unit : MonoBehaviour
 {
+    private GridPosition gridPosition;
     private float stoppingDistance = 0.01f;
     private Vector3 targetPosition;
     private float moveSpeed = 4f;
@@ -12,6 +13,10 @@ public class Unit : MonoBehaviour
     [SerializeField]private Animator unitAniamtor;
     private void Awake(){
         targetPosition = transform.position;
+    }
+    private void Start() {
+        gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
     }
     private void Update(){
         
@@ -27,6 +32,11 @@ public class Unit : MonoBehaviour
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
             transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
              transform.position += moveDirection * Time.deltaTime * moveSpeed;
+        }
+        GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        if(newGridPosition != gridPosition){
+            LevelGrid.Instance.UnitMovedGridPosition(this, gridPosition, newGridPosition);
+            gridPosition = newGridPosition;
         }
 
        
