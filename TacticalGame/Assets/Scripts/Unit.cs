@@ -31,7 +31,7 @@ public class Unit : MonoBehaviour
             unitAniamtor.SetBool("isWalking", true);
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
             transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
-             transform.position += moveDirection * Time.deltaTime * moveSpeed;
+            transform.position += moveDirection * Time.deltaTime * moveSpeed;
         }
         GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         if(newGridPosition != gridPosition){
