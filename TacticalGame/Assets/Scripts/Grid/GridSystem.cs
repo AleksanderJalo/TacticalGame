@@ -54,4 +54,12 @@ public class GridSystem
                 gridPosition.z < height;
     }
 
+    public int GetWidth(){
+        return width;
+    }
+
+    public int GetHeight(){
+        return height;
+    }
+
 }
