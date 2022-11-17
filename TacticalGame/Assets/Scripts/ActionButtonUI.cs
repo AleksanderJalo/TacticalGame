@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class ActionButtonUI : MonoBehaviour
 {
@@ -11,5 +12,9 @@ public class ActionButtonUI : MonoBehaviour
 
     public void SetBaseAction(BaseAction baseAction){
         textMeshPro.text = baseAction.GetActionName().ToUpper();
+        button.onClick.AddListener(() =>
+        {
+            UnitActionSystem.Instance.SetSelectedAction(baseAction);
+        });
     }
 }

@@ -8,7 +8,9 @@ public class UnitActionSystemUI : MonoBehaviour
 {
     [SerializeField] private Transform actionButtonPrefab;
     [SerializeField] private Transform actionButtonContainerTransform;
+
     private void Start() {
+        
         UnitActionSystem.Instance.OnSelectedUnitChange += UnitActionSystem_OnSelectedUnitChange;
         CreateUnitActionButtons();
     }
@@ -16,7 +18,9 @@ public class UnitActionSystemUI : MonoBehaviour
         foreach(Transform buttonTransform in actionButtonContainerTransform){
             Destroy(buttonTransform.gameObject);
         }
+
         Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
+
         foreach(BaseAction baseAction in selectedUnit.GetBaseActionArray()){
             Transform actionButtonTransfrom = Instantiate(actionButtonPrefab, actionButtonContainerTransform);
             ActionButtonUI actionButtonUI = actionButtonTransfrom.GetComponent<ActionButtonUI>();
@@ -26,6 +30,7 @@ public class UnitActionSystemUI : MonoBehaviour
     }
 
     private void UnitActionSystem_OnSelectedUnitChange(object sender, EventArgs e){
+
         CreateUnitActionButtons();
     } 
 }
