@@ -14,7 +14,7 @@ public class UnitActionSystem : MonoBehaviour
     }
    private void Update(){
     
-     if(Input.GetKeyDown(KeyCode.Mouse0)){
+    if(Input.GetKeyDown(KeyCode.Mouse0)){
             if(UnitSelection()) return;
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
             if(selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition)){
@@ -23,6 +23,10 @@ public class UnitActionSystem : MonoBehaviour
             }
             
         }
+    if(Input.GetKeyDown(KeyCode.Mouse1)){
+            selectedUnit.GetSpinAction().Spin();
+        } 
+    
    }
 
    private bool UnitSelection(){
