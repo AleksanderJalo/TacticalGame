@@ -23,6 +23,9 @@ public class UnitActionSystem : MonoBehaviour
         SetSelectedUnit(selectedUnit);
     }
    private void Update(){
+    if(!TurnSystem.Instance.IsPlayerTurn()){
+            return;
+        }
     if(isBusy){
             return;
         }
@@ -45,6 +48,10 @@ public class UnitActionSystem : MonoBehaviour
                 if (raycastHit.transform.TryGetComponent<Unit>(out Unit unit))
                 {
                     if(unit == selectedUnit){
+                        return false;
+                    }
+
+                    if(unit.IsEnemy()){
                         return false;
                     }
                     SetSelectedUnit(unit);
