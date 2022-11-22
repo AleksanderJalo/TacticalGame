@@ -5,6 +5,8 @@ using System;
 
 public class Unit : MonoBehaviour
 {
+    public static event EventHandler OnAnyActionPointsChange;
+    private const int ACTION_POINTS_MAX = 2;
     private SpinAction spinAction;
     private GridPosition gridPosition;
     private MoveAction moveAction;
@@ -16,6 +18,7 @@ public class Unit : MonoBehaviour
         baseActionArray = GetComponents<BaseAction>();
     }
     private void Start() {
+        TurnSystem.Instance.TurnChange += TurnSystem_TurnChange;
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
     }
@@ -55,6 +58,7 @@ public class Unit : MonoBehaviour
 
     private void SpendActionPoints(int amount){
         actionPoints -= amount;
+        OnAnyActionPointsChange?.Invoke(this, EventArgs.Empty);
     }
 
     public bool TrySpendActionPointsToTakeAction(BaseAction baseAction){
@@ -69,6 +73,11 @@ public class Unit : MonoBehaviour
 
     public int GetActionPoints(){
         return actionPoints;
+    }
+
+    private void TurnSystem_TurnChange(object sender, EventArgs e){
+        actionPoints = ACTION_POINTS_MAX;
+        OnAnyActionPointsChange?.Invoke(this, EventArgs.Empty);
     }
  
 }
