@@ -3,21 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class UnitActionSystemUI : MonoBehaviour
 {
     [SerializeField] private Transform actionButtonPrefab;
     [SerializeField] private Transform actionButtonContainerTransform;
+    [SerializeField] private TextMeshProUGUI actionPointsText;
+    private List<ActionButtonUI> actionButtonUIList;
 
     private void Start() {
-        
+        actionButtonUIList = new List<ActionButtonUI>();
         UnitActionSystem.Instance.OnSelectedUnitChange += UnitActionSystem_OnSelectedUnitChange;
+        UnitActionSystem.Instance.OnSelectedActionChange += UnitActionSystem_OnSelectedActionChange;
+        UnitActionSystem.Instance.OnActionStarted += UnitActionSystem_OnSelectedActionStarted;
         CreateUnitActionButtons();
+        UpdateSelectedVisual();
+        UpdateActionPoints();
     }
     private void CreateUnitActionButtons(){
         foreach(Transform buttonTransform in actionButtonContainerTransform){
             Destroy(buttonTransform.gameObject);
         }
+
+        actionButtonUIList.Clear();
 
         Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
 
@@ -25,6 +34,7 @@ public class UnitActionSystemUI : MonoBehaviour
             Transform actionButtonTransfrom = Instantiate(actionButtonPrefab, actionButtonContainerTransform);
             ActionButtonUI actionButtonUI = actionButtonTransfrom.GetComponent<ActionButtonUI>();
             actionButtonUI.SetBaseAction(baseAction);
+            actionButtonUIList.Add(actionButtonUI);
         }
 
     }
@@ -32,5 +42,26 @@ public class UnitActionSystemUI : MonoBehaviour
     private void UnitActionSystem_OnSelectedUnitChange(object sender, EventArgs e){
 
         CreateUnitActionButtons();
+        UpdateSelectedVisual();
+        UpdateActionPoints();
+    }
+
+    private void UnitActionSystem_OnSelectedActionChange(object sender, EventArgs e){
+        UpdateSelectedVisual();
     } 
+
+    private void UnitActionSystem_OnSelectedActionStarted(object sender, EventArgs e){
+        UpdateActionPoints();
+    }
+
+    private void UpdateSelectedVisual(){
+        foreach(ActionButtonUI actionButtonUI in actionButtonUIList){
+            actionButtonUI.UpdateSelectedVisual();
+        }
+    }
+
+    private void UpdateActionPoints(){
+        Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
+        actionPointsText.text = "Action Points: " + selectedUnit.GetActionPoints();
+    }
 }
