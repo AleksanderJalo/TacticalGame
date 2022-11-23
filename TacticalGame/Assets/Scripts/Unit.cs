@@ -6,6 +6,7 @@ using System;
 public class Unit : MonoBehaviour
 {
     [SerializeField] private bool isEnemy;
+    private HealthSystem healthSystem;
     public static event EventHandler OnAnyActionPointsChange;
     private const int ACTION_POINTS_MAX = 2;
     private SpinAction spinAction;
@@ -17,11 +18,13 @@ public class Unit : MonoBehaviour
         moveAction = GetComponent<MoveAction>();
         spinAction = GetComponent<SpinAction>();
         baseActionArray = GetComponents<BaseAction>();
+        healthSystem = GetComponent<HealthSystem>();
     }
     private void Start() {
         TurnSystem.Instance.TurnChange += TurnSystem_TurnChange;
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
+        healthSystem.OnDeath += HealthSystem_OnDeath;
     }
     private void Update(){
         GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
@@ -89,11 +92,17 @@ public class Unit : MonoBehaviour
         return isEnemy;
     }
 
-    public void Damage(){
+    public void Damage(int damageAmount){
         Debug.Log("boom");
+        healthSystem.Damage(damageAmount);
     }
     public Vector3 GetWorldPosition(){
         return transform.position;
+    }
+
+    private void HealthSystem_OnDeath(object sender, EventArgs e){
+        LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
+        Destroy(gameObject);
     }
  
 }
