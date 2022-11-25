@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2043739035, guid: 01c945a6be546da4db1f909baa474f59, type: 3}
+      propertyPath: health
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 2059425082673493973, guid: 01c945a6be546da4db1f909baa474f59,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -16,12 +20,12 @@ PrefabInstance:
     - target: {fileID: 2125070405627786800, guid: 01c945a6be546da4db1f909baa474f59,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2125070405627786800, guid: 01c945a6be546da4db1f909baa474f59,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2125070405627786800, guid: 01c945a6be546da4db1f909baa474f59,
         type: 3}
@@ -31,7 +35,7 @@ PrefabInstance:
     - target: {fileID: 2125070405627786800, guid: 01c945a6be546da4db1f909baa474f59,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2125070405627786800, guid: 01c945a6be546da4db1f909baa474f59,
         type: 3}
@@ -78,6 +82,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: UnitEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 8376809969945902706, guid: 01c945a6be546da4db1f909baa474f59,
+        type: 3}
+      propertyPath: ragdollPrefab
+      value: 
+      objectReference: {fileID: 3546847629010688408, guid: 800a0c6811659724891ce7bfa171476c,
+        type: 3}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 01c945a6be546da4db1f909baa474f59, type: 3}
