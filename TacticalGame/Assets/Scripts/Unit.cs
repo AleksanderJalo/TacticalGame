@@ -8,6 +8,8 @@ public class Unit : MonoBehaviour
     [SerializeField] private bool isEnemy;
     private HealthSystem healthSystem;
     public static event EventHandler OnAnyActionPointsChange;
+    public static event EventHandler OnAnyUnitSpawn;
+    public static event EventHandler OnAnyUnitDeath;
     private const int ACTION_POINTS_MAX = 2;
     private SpinAction spinAction;
     private GridPosition gridPosition;
@@ -25,6 +27,7 @@ public class Unit : MonoBehaviour
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
         healthSystem.OnDeath += HealthSystem_OnDeath;
+        OnAnyUnitSpawn?.Invoke(this, EventArgs.Empty);
     }
     private void Update(){
         GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
@@ -104,6 +107,7 @@ public class Unit : MonoBehaviour
     private void HealthSystem_OnDeath(object sender, EventArgs e){
         LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
         Destroy(gameObject);
+        OnAnyUnitDeath?.Invoke(this, EventArgs.Empty);
     }
  
 }
