@@ -11,12 +11,14 @@ public class Unit : MonoBehaviour
     public static event EventHandler OnAnyUnitSpawn;
     public static event EventHandler OnAnyUnitDeath;
     private const int ACTION_POINTS_MAX = 2;
+    private ShootAction shootAction;
     private SpinAction spinAction;
     private GridPosition gridPosition;
     private MoveAction moveAction;
     private BaseAction[] baseActionArray;
     private int actionPoints = 2;
     private void Awake() {
+        shootAction = GetComponent<ShootAction>();
         moveAction = GetComponent<MoveAction>();
         spinAction = GetComponent<SpinAction>();
         baseActionArray = GetComponents<BaseAction>();
@@ -108,6 +110,14 @@ public class Unit : MonoBehaviour
         LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
         Destroy(gameObject);
         OnAnyUnitDeath?.Invoke(this, EventArgs.Empty);
+    }
+
+    public ShootAction GetShootAction(){
+        return shootAction;
+    }
+
+    public float GetHealthNormalized(){
+        return healthSystem.GetHealthNormalized();
     }
  
 }
